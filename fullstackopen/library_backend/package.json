@@ -1,0 +1,22 @@
+{
+  "name": "library_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/library-backend.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production nodemon src/library-backend.js",
+    "dev": "cross-env NODE_ENV=test nodemon src/library-backend.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.24.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^9.0.2",
+    "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.10",
+    "nodemon": "^2.0.7",
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,51 @@
+
+enum QuestionType { 
+    MULTIPLE_CHOICE
+    BOOLEAN
+    ANY
+}
+
+enum Difficulty {
+    EASY
+    MEDIUM
+    HARD
+    ANY
+}
+
+type Question {
+    category: String!
+    type: QuestionType!
+    difficulty:	Difficulty!
+    question: String!
+    correct_answer: String!
+    incorrect_answers: [String!]!
+}
+
+type Category {
+    id: Int!
+    name: String!
+}
+
+type Query {
+    getCategories: GetCategoriesResponse!
+    getOpenQuizzes(id: String): [QuizParams!]
+}
+
+type Mutation {
+    createQuiz(name: String!, created_by: String!, question_amount: Int, type: QuestionType, difficulty: Difficulty, categories: [Int!]): QuizParams!
+}
+
+type QuizParams {
+    id: String!
+    name: String!
+    created_by: String!
+    created_ts: String!
+    question_amount: Int!
+    type: QuestionType!
+    difficulty: Difficulty!
+    categories: [String!]
+}
+
+type GetCategoriesResponse {
+    categories: [Category!]!
+}

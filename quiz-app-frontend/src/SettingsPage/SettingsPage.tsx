@@ -14,6 +14,7 @@ const SettingsPage = ({ username, setUsername }: Props) => {
                 initialValues={{ username: username }}
                 onSubmit={(values, _actions) => {
                     setUsername(values.username);
+                    window.localStorage.setItem('username', values.username);
                 }}
                 validate={values => {
                     const requiredError = "Field is required";

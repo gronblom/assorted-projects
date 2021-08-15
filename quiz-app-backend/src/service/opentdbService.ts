@@ -136,7 +136,6 @@ export const fetchQuestions = async (params: QuizParams): Promise<Array<Question
         allQuestions.splice(0, superfluousQuestionAmount);
     }
     return allQuestions;
-
 }
 
 /**

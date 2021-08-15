@@ -13,10 +13,17 @@ import OpenQuizesPage from './OpenQuizesPage/OpenQuizesPage';
 
 function App() {
   const history = useHistory();
-  // TODO react context + localStorage
+  // TODO react context?
   const [username, setUsername] = React.useState<string>("");
   useEffect(() => {
-    setUsername(`user${Math.floor(Math.random() * 1000000000)}`);
+    const username = window.localStorage.getItem('username');
+    if (username) {
+      setUsername(username);
+    } else {
+      const randomUsername = `user${Math.floor(Math.random() * 1000000000)}`;
+      setUsername(randomUsername);
+      window.localStorage.setItem('username', randomUsername);
+    }
   }, []);
   const [quizActive, setQuizActive] = React.useState<boolean>(false);
 

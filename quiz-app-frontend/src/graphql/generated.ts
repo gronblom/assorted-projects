@@ -88,7 +88,7 @@ export type QuizParams = {
   question_amount: Scalars['Int'];
   type: QuestionType;
   difficulty: Difficulty;
-  categories?: Maybe<Array<Scalars['String']>>;
+  categories?: Maybe<Array<Scalars['Int']>>;
 };
 
 
@@ -252,7 +252,7 @@ export type QuizParamsResolvers<ContextType = any, ParentType extends ResolversP
   question_amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['QuestionType'], ParentType, ContextType>;
   difficulty?: Resolver<ResolversTypes['Difficulty'], ParentType, ContextType>;
-  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['Int']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

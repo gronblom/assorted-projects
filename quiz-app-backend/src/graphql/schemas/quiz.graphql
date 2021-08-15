@@ -43,7 +43,7 @@ type QuizParams {
     question_amount: Int!
     type: QuestionType!
     difficulty: Difficulty!
-    categories: [String!]
+    categories: [Int!]
 }
 
 type GetCategoriesResponse {

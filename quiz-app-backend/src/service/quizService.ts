@@ -1,8 +1,7 @@
 import {
-    Category, Difficulty, MutationCreateQuizArgs, QueryGetOpenQuizzesArgs, Question, QuestionType,
+    Category, Difficulty, MutationCreateQuizArgs, QueryGetOpenQuizzesArgs, QuestionType,
     QuizParams
 } from "../graphql/generated"
-import questionData from './questions';
 import categoryData from './categories';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -12,7 +11,6 @@ import {
 import WebSocket from "ws";
 import { fetchQuestions } from "./opentdbService";
 
-const questions: Array<Question> = questionData;
 const categories: Array<Category> = categoryData;
 
 const DEFAULT_QUESTION_AMOUNT = 10;
@@ -32,6 +30,7 @@ const createQuiz = (args: MutationCreateQuizArgs): QuizParams => {
     const question_amount = args.question_amount ? args.question_amount : DEFAULT_QUESTION_AMOUNT;
     const difficulty = args.difficulty ? args.difficulty : Difficulty.Any;
     const type = args.type ? args.type : QuestionType.Any;
+    const categories = args.categories ? args.categories : [];
     const quiz: QuizParams = {
         id,
         name,
@@ -40,12 +39,13 @@ const createQuiz = (args: MutationCreateQuizArgs): QuizParams => {
         question_amount,
         difficulty,
         type,
+        categories
     };
     const answers = Array(question_amount).fill(null).map(_ => ({}));
     const activeQuiz: ActiveQuiz = {
         state: QuizState.OPEN,
         params: quiz,
-        questions: questions, // TODO remove static questions
+        questions: [],
         current_question: null,
         players: [],
         answers
@@ -156,8 +156,20 @@ const startQuiz = async (id: QuizId, username: Username): Promise<void> => {
     if (hasKey(quizzes, id) && quizzes[id].params.created_by === username) {
         const quiz = quizzes[id]
         quiz.state = QuizState.ACTIVE;
-        quiz.questions = await fetchQuestions(quiz.params);
-        sendNextQuestionOrFinish(id)
+        try {
+            quiz.questions = await fetchQuestions(quiz.params);
+            const actualQuestionAmount = quiz.questions.length;
+            // Possibly there are less questions available than requested. This is currently not updated client-side.
+            if (actualQuestionAmount > quiz.params.question_amount) {
+                console.log(`Available questions ${actualQuestionAmount} less than requested ${quiz.params.question_amount}`);
+                quiz.params.question_amount = actualQuestionAmount;
+            }
+            sendNextQuestionOrFinish(id)
+        } catch (error) {
+            console.log("Error when fetching questions");
+            console.log(error);
+            endQuiz(id);   
+        }
     }
 };
 
@@ -182,7 +194,8 @@ const updateAnswer = (quiz: ActiveQuiz, event: QuestionAnswerEvent) => {
 };
 
 const allAnswersReceived = (quiz: ActiveQuiz, question_number: number): boolean => {
-    return Object.keys(quiz.answers[question_number]).length === quiz.players.length;
+    return Object.keys(quiz.answers[question_number]).length === quiz.players.length ||
+        quiz.questions.length <= question_number;
 };
 
 const handleQuestionAnswer = (event: QuestionAnswerEvent) => {

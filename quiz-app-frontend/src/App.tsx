@@ -66,7 +66,7 @@ function App() {
             <Header as="h1">Quizmeister 3000</Header>
             <div>Username: {username}</div>
             <Button as={Link} to="/" primary>
-              Quizes
+              Open Quizzes
             </Button>
             <Button as={Link} to="/settings" primary>
               Settings

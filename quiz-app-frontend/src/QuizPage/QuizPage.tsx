@@ -68,7 +68,7 @@ const QuizPage = ({ username, setQuizActive, endQuiz }: Props) => {
         }
     }, [data, endQuiz]);
 
-    const [socketUrl] = useState('ws://localhost:4001');
+    const [socketUrl] = useState('ws://localhost:4000');
     const messageHistory = useRef<Array<MessageEvent<any> | null>>([]);
 
     const {

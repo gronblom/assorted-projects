@@ -7,6 +7,7 @@ I recently started developing a react multiplayer quiz app. The backend uses gra
 - [quiz-app-frontend](https://github.com/gronblom/assorted-projects/tree/main/quiz-app-frontend)
 - [quiz-app-backend](https://github.com/gronblom/assorted-projects/tree/main/quiz-app-backend)
 - [Screenshot](https://imgur.com/a/X06gvK0)
+- [heroku instance](https://infinite-garden-02616.herokuapp.com/) (multiplayer can be tested by opening another instance in a private window with another username)
 
 ## courses
 

@@ -8,7 +8,7 @@ import SettingsPage from './SettingsPage/SettingsPage';
 import QuizPage from './QuizPage/QuizPage';
 import { CREATE_QUIZ, CreateQuizResponse } from './graphql/queries';
 import { LoadingIcon } from './components/LoadingIcon';
-import OpenQuizesPage from './OpenQuizesPage/OpenQuizesPage';
+import OpenQuizzesPage from './OpenQuizzesPage/OpenQuizzesPage';
 
 
 function App() {
@@ -84,7 +84,7 @@ function App() {
             <QuizPage username={username} setQuizActive={setQuizActive} endQuiz={endQuiz} />
           </Route>
           <Route path="/">
-            {createQuizLoading ? <LoadingIcon /> : <OpenQuizesPage/>}
+            {createQuizLoading ? <LoadingIcon /> : <OpenQuizzesPage/>}
           </Route>
         </Switch>
       </Container>

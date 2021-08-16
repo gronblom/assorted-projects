@@ -19,20 +19,28 @@ const OpenQuizesPage = () => {
     return (
         <div>
             <Item.Group>
-                {data.getOpenQuizzes.map(quiz => (
-                    <Item key={quiz.id}>
-                        <Item.Content>
-                            <Item.Header as='a'>{quiz.name}</Item.Header>
-                            <Item.Meta>{quiz.question_amount} questions</Item.Meta>
-                            <Item.Description>
-                                <div>creator: {quiz.created_by}</div>
-                                <div>created: {toLocalTs(quiz.created_ts)}</div>
-                                {/* TODO add player amount to graphql */}
-                            </Item.Description>
-                            <Item.Extra><Button as={Link} to={`/quiz/${quiz.id}`} size="tiny" color="pink">Join</Button></Item.Extra>
-                        </Item.Content>
-                    </Item>
-                ))}
+                {data.getOpenQuizzes.length > 0 ?
+                    data.getOpenQuizzes.map(quiz => (
+                        <Item key={quiz.id}>
+                            <Item.Content>
+                                <Item.Header as='a'>{quiz.name}</Item.Header>
+                                <Item.Meta>{quiz.question_amount} questions</Item.Meta>
+                                <Item.Description>
+                                    <div>creator: {quiz.created_by}</div>
+                                    <div>created: {toLocalTs(quiz.created_ts)}</div>
+                                    {/* TODO add player amount to graphql */}
+                                </Item.Description>
+                                <Item.Extra><Button as={Link} to={`/quiz/${quiz.id}`} size="tiny" color="pink">Join</Button></Item.Extra>
+                            </Item.Content>
+                        </Item>
+                    ))
+                    :
+                    <Item>
+                        <Item.Description>
+                            No open quizzes
+                        </Item.Description>
+                    </Item>}
+
             </Item.Group>
         </div>
     );

@@ -68,7 +68,8 @@ const QuizPage = ({ username, setQuizActive, endQuiz }: Props) => {
         }
     }, [data, endQuiz]);
 
-    const [socketUrl] = useState('ws://localhost:4000');
+    const port = process.env.PORT || 4000;
+    const [socketUrl] = useState(`ws://localhost:${port}`);
     const messageHistory = useRef<Array<MessageEvent<any> | null>>([]);
 
     const {

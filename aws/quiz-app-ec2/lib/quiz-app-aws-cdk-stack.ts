@@ -33,7 +33,7 @@ export class QuizAppAwsCdkStack extends cdk.Stack {
         {
           cidrMask: 24,
           name: "backend",
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+          subnetType: ec2.SubnetType.PUBLIC//ec2.SubnetType.PRIVATE_WITH_NAT,
         }
       ]
     });
@@ -80,7 +80,7 @@ export class QuizAppAwsCdkStack extends cdk.Stack {
     //Backend
     const ec2Backend = new ec2.Instance(this, 'Backend', {
       vpc: vpc,
-      vpcSubnets: {subnetType: ec2.SubnetType.PRIVATE_WITH_NAT},
+      vpcSubnets: {subnetType: ec2.SubnetType.PUBLIC }, //ec2.SubnetType.PRIVATE_WITH_NAT},
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
       machineImage: ami,
       securityGroup: backendSecurityGroup,
@@ -130,8 +130,8 @@ export class QuizAppAwsCdkStack extends cdk.Stack {
       'nvm install 14',
       'cd /home/ec2-user/app/quiz-app',
       'rm -rf node_modules', 'npm install', 'rm .env', 'touch .env.production',
-      `echo "REACT_APP_BACKEND_URL=http://${ec2Backend.instancePrivateIp}:4000/graphql" >> .env.production`,
-      `echo "REACT_APP_BACKEND_WEBSOCKET_URL=ws://${ec2Backend.instancePrivateIp}:4000" >> .env.production`,
+      `echo "REACT_APP_BACKEND_URL=http://${ec2Backend.instancePublicIp}:4000/graphql" >> .env.production`,
+      `echo "REACT_APP_BACKEND_WEBSOCKET_URL=ws://${ec2Backend.instancePublicIp}:4000" >> .env.production`,
       'npm run build', 'mkdir ../public', 'cp -Rv build/* ../public',
       'cd /home/ec2-user/app', 'rm -rf node_modules', 'npm install',
       `npm start`];

@@ -1,0 +1,30 @@
+{
+  "name": "quiz-app-aws-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "quiz-app-aws-cdk": "bin/quiz-app-aws-cdk.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "outdated": "npm outdated | awk 'NR>1 {print $1\"@\"$4}'"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^1.129.0",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.6",
+    "aws-cdk": "^1.129.0",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-ec2": "^1.129.0",
+    "@aws-cdk/core": "^1.129.0",
+    "cdk-ec2-key-pair": "^2.2.1",
+    "source-map-support": "^0.5.16"
+  }
+}

@@ -68,8 +68,8 @@ const QuizPage = ({ username, setQuizActive, endQuiz }: Props) => {
         }
     }, [data, endQuiz]);
 
-    const port = process.env.PORT || 4000;
-    const [socketUrl] = useState(`ws://localhost:${port}`);
+    const url = process.env.REACT_APP_BACKEND_WEBSOCKET_URL ?? 'ws://localhost:4000';
+    const [socketUrl] = useState(url);
     const messageHistory = useRef<Array<MessageEvent<any> | null>>([]);
 
     const {

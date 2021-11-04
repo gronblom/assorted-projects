@@ -1,0 +1,12 @@
+{
+  "data": "value1",
+  "type": "signatureValidationRequest",
+  "signature": {
+    "dataId": "value2",
+    "firstHash": "84a394c622b5249f8016dc04126cdf55bf4db3bbf1cd27be817dee00010f832b3dd56b6ad3a006df0599bab1f1574db977a86e6770fb295eec01bfe15152d305",
+    "keyId": "test_key_2021-11-04",
+    "timestamp": "2021-11-04T20:20:18+00:00",
+    "secondHash": "f103ce4528ad4a67afcfbefffb63a314a7f35966896d1b3ee9eee69dcb62d6eacd0368ab490bf43e5582487e46a560974d9ce57484109143a8d33706e142d2e4",
+    "type": "signature"
+  }
+}

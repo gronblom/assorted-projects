@@ -1,0 +1,5 @@
+{
+    "type": "signatureRequest",
+    "data": "value1\nvalue2\nvalue3",
+    "dataId": "12345"
+}

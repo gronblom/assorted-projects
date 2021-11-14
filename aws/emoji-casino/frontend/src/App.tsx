@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import React from 'react';
 import axios from 'axios';
 import './styles.css';
+import { StringMappingType } from "typescript";
 
 type Inputs = {
   emojiNum: number,
@@ -9,13 +10,15 @@ type Inputs = {
 };
 
 type Account = {
+  name: string,
   username: string,
   balanceCents: number
 }
 
 function App() {
-  const [account, setAccount] = React.useState<Account>({username: "blubb", balanceCents: 10000})
+  const [account, setAccount] = React.useState<Account>({name: "Emoji-Casino User", username: "emoji_casino_user", balanceCents: 10000})
   const [emojis, setEmojis] = React.useState<Array<number>>([]);
+  const [lastWinCents, setLastWinCents] = React.useState<number | undefined>(undefined);
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   const apiUrl = process.env.REACT_APP_API_URL ?? 'http://localhost:3000';
 
@@ -23,8 +26,10 @@ function App() {
     const data = { username, emojiNum, betCents };
     axios.post(apiUrl, {...data})
       .then((response) => {
-
         console.log(response);
+        const newBalanceCents = account.balanceCents - response.data.betCents + response.data.winAmountCents;
+    setAccount({...account, balanceCents: newBalanceCents});
+        setLastWinCents(response.data.winAmountCents);
         setEmojis(response.data.emojis);
       })
       .catch((error) => {
@@ -33,15 +38,24 @@ function App() {
     
   };
 
+  const insertMoney = () => {
+    setAccount({...account, balanceCents: account.balanceCents + 10000});
+  }
+
   const onSubmit: SubmitHandler<Inputs> = data => {
     console.log(data);
     const emojiNum = Number(data.emojiNum);
-    const stake = Number(data.betCents);
-    bet(account.username, emojiNum, stake);
+    const betCents = Number(data.betCents);
+    bet(account.username, emojiNum, betCents);
   };
 
-  const randomUnicodeCodePoints = (n: number) => {
-    return Array.from({ length: n }, () => Math.floor(127500 + Math.random() * 2400));
+  const formatCents = (cents: number | undefined): string => {
+    if (!cents && cents != 0) {
+      return "";
+    }
+    const euros = cents / 100;
+    const centsRemainder = cents % 100;
+    return `${euros}.${String(centsRemainder).padStart(2, '0')}`
   }
 
   // 𒓬 🌌 🎰🪆😀😀🧬🏴󠁧󠁢󠁥󠁮󠁧󠁿🫀 🃏🦖🦅🙬🗺🌐🕷🦤😱
@@ -50,19 +64,21 @@ function App() {
     <div className="App">
       <h1>Emoji Casino</h1>
       <header className="App-header">
-        <div>
-          <label>Username</label>
-          <span>{account.username}</span>
+        <p>
+        <div style={{ display: "inline", margin: "50px"}}>
+          <button onClick={() => insertMoney()} style={{ display: "inline" }}>Insert money 💶</button>
+          <label style={{ display: "inline", margin: "20px"}}>Balance: {formatCents(account.balanceCents)}</label>
+          <label style={{ display: "inline", margin: "20px"}}>Last win: {formatCents(lastWinCents)}</label>
         </div>
+        </p>
        {/* <div>
           <button style={{ display: "inline" }} onClick={() => console.log("click")}>Insert money 💶</button>
-          <button style={{ display: "inline" }}>Insert money 💶</button>
           <button style={{ display: "inline" }}>Insert money 💶</button>
        </div>*/}
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Emoji amount</label>
-          <input defaultValue="100" {...register("emojiNum", {min: 1, max: 9999})} />
-
+          <input defaultValue="499" {...register("emojiNum", {min: 1, max: 9999})} />
+          {errors.emojiNum && <span>Emoji amount has to be between 1 and 9999</span>}
           {/*<input {...register("stake", { required: true })} />*/}
           <label>Stake</label>
           <select {...register("betCents", { required: true })}>
@@ -70,10 +86,13 @@ function App() {
             <option value="50">50 cent</option>
             <option selected value="100">1 euro</option>
           </select>
-          {errors.betCents && <span>This field is required</span>}
+          
 
           <input type="submit" />
         </form>
+        <div>
+
+        </div>
         <div style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word', fontSize: '14px' }}>
           <p>
             {emojis.map((emoji, i) => (

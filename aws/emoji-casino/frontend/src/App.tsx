@@ -2,7 +2,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import React from 'react';
 import axios from 'axios';
 import './styles.css';
-import { StringMappingType } from "typescript";
 
 type Inputs = {
   emojiNum: number,
@@ -53,7 +52,7 @@ function App() {
     if (!cents && cents != 0) {
       return "";
     }
-    const euros = cents / 100;
+    const euros = Math.floor(cents / 100);
     const centsRemainder = cents % 100;
     return `${euros}.${String(centsRemainder).padStart(2, '0')}`
   }

@@ -1,17 +1,19 @@
 name: Github Actions Emoji Casino
 on:
   push:
-    paths: aws/emoji-casino/backend/**
+    paths:
+      - .github/workflows/github-actions-emoji-casino.yml
+      - aws/emoji-casino/backend/**
 jobs:
   Emoji-Casino-Aws-Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: cdk diff
+      - name: checkout
         uses: actions/checkout@v2
+      - name: cdk diff
         uses: youyo/aws-cdk-github-actions@v2
         with:
           cdk_subcommand: 'diff'
-          uses: actions/checkout@v2
           actions_comment: true
           working_dir: 'aws/emoji-casino/backend'
         env:

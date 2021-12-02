@@ -1,4 +1,3 @@
  #!/bin/bash
 
- docker build -t quizapp-backend .
- 
+ docker build -t quiz-app-backend .

@@ -50,31 +50,29 @@ func partitionNumbers(slice [][]string, bitColumn int, mostCommon bool) []string
 		return nil
 	}
 	sortSlice(slice, bitColumn)
-	// Figure out where the border between "0" and "1" lies
-	var border int
+	// Calculate how many zeroes and ones there are
+	var zeroesNum int
 	for i := 1; i < sliceLen; i++ {
-		border = i
+		zeroesNum = i
 		if slice[i-1][bitColumn] != slice[i][bitColumn] {
 			break
 		}
 	}
-
-	zeroesNum := border
-	onesNum := sliceLen - border
+	onesNum := sliceLen - zeroesNum
 	// Calculate the partition that goes to next iteration
 	// Note in mostCommon mode "1" wins ties and vice versa
 	var slicePartition [][]string
 	if mostCommon {
 		if zeroesNum > onesNum {
-			slicePartition = slice[:border]
+			slicePartition = slice[:zeroesNum]
 		} else {
-			slicePartition = slice[border:]
+			slicePartition = slice[zeroesNum:]
 		}
 	} else {
 		if zeroesNum > onesNum {
-			slicePartition = slice[border:]
+			slicePartition = slice[zeroesNum:]
 		} else {
-			slicePartition = slice[:border]
+			slicePartition = slice[:zeroesNum]
 		}
 	}
 	return partitionNumbers(slicePartition, bitColumn+1, mostCommon)

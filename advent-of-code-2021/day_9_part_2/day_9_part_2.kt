@@ -32,23 +32,23 @@ fun calculateOutflows(heightMap: List<List<Int>>, x: Int, y: Int, maxX: Int, max
     val value = heightMap[y][x]
     // Check to which directions this point flows
     
-    var lowestNeighborCoords = mutableListOf<Pair<Int, Int>>()
+    var outflows = mutableListOf<Pair<Int, Int>>()
     if (value == 9) {
-        return lowestNeighborCoords
+        return outflows
     }
     if (x - 1 >= 0 && heightMap[y][x - 1] < value && heightMap[y][x - 1] < 9) {
-        lowestNeighborCoords.add(Pair(x-1, y))
+        outflows.add(Pair(x-1, y))
     }
     if (x + 1 <= maxX && heightMap[y][x+1] < value && heightMap[y][x + 1] < 9) {
-        lowestNeighborCoords.add(Pair(x+1, y))
+        outflows.add(Pair(x+1, y))
     }
     if (y - 1 >= 0 && heightMap[y-1][x] < value && heightMap[y-1][x] < 9) {
-        lowestNeighborCoords.add(Pair(x, y-1))
+        outflows.add(Pair(x, y-1))
     }
     if (y + 1 <= maxY && heightMap[y+1][x] < value && heightMap[y+1][x] < 9) {
-        lowestNeighborCoords.add(Pair(x, y+1))
+        outflows.add(Pair(x, y+1))
     }
-    return lowestNeighborCoords
+    return outflows
 }
 
 fun parseHeightMap(path: String): List<List<Int>> {
@@ -69,7 +69,7 @@ fun findBasins(heightMap: List<List<Int>>, pointFlows: List<List<List<Pair<Int, 
            val point = heightMap[y][x]
            val outflows = pointFlows[y][x]
            if (point < 9 && outflows.isEmpty()) {
-               var basinSize = calculateBasinSize(x, y, heightMap, pointFlows, maxX, maxY)
+               var basinSize = calculateBasinSize(x, y, pointFlows, maxX, maxY)
                basinSizes.add(basinSize)
            } 
         }
@@ -77,7 +77,7 @@ fun findBasins(heightMap: List<List<Int>>, pointFlows: List<List<List<Pair<Int, 
     return basinSizes
 }
 
-fun calculateBasinSize(x: Int, y: Int, heightMap: List<List<Int>>, pointFlows: List<List<List<Pair<Int, Int>>>>,
+fun calculateBasinSize(x: Int, y: Int, pointFlows: List<List<List<Pair<Int, Int>>>>,
                        maxX: Int, maxY: Int): Int {
     val visitedPoints = mutableSetOf<Pair<Int, Int>>()
     val pointsToVisit = ArrayDeque<Pair<Int, Int>>()

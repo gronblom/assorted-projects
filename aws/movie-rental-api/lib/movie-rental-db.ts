@@ -11,11 +11,11 @@ import {
     aws_lambda as lambda,
     RemovalPolicy
 } from 'aws-cdk-lib';
-import { CdkResourceInitializer } from '../lib/resource-init'
+import { CdkResourceInitializer } from './resource-init'
 import { RetentionDays } from '@aws-cdk/aws-logs'
 import { Construct } from 'constructs';
 
-export class MovieRentalBackend extends Stack {
+export class MovieRentalDb extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
 

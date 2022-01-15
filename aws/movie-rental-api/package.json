@@ -2,7 +2,7 @@
   "name": "movie-rental-api",
   "version": "0.1.0",
   "bin": {
-    "movie-rental-db": "bin/movie-rental-db.js"
+    "movie-rental-db": "bin/movie-rental-api.js"
   },
   "scripts": {
     "build": "tsc",

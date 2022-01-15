@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { MovieRentalBackend } from '../lib/movie-rental-backend';
+import { MovieRentalDb } from '../lib/movie-rental-db';
 
 const app = new cdk.App();
-new MovieRentalBackend(app, 'MovieRentalApiStack', {
+const dbInitStack = new MovieRentalDb(app, 'MovieRentalDbInitStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */

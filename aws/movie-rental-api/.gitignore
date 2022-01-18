@@ -3,6 +3,8 @@
 !lib/db-init/index.js
 *.d.ts
 node_modules
+.env
+*.zip
 
 # CDK asset staging directory
 .cdk.staging

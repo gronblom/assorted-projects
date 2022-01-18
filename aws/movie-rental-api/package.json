@@ -34,6 +34,7 @@
     "@aws-cdk/custom-resources": "^1.138.2",
     "aws-cdk-lib": "2.4.0",
     "constructs": "^10.0.0",
+    "dotenv": "^14.1.0",
     "source-map-support": "^0.5.16"
   }
 }

@@ -2,9 +2,11 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { MovieRentalDb } from '../lib/movie-rental-db';
+import { MovieRentalLambdaApi } from '../lib/movie-rental-lambda-api';
+import 'dotenv/config'
 
 const app = new cdk.App();
-const dbInitStack = new MovieRentalDb(app, 'MovieRentalDbInitStack', {
+const dbInitStack = new MovieRentalDb(app, 'DbInit', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -18,4 +20,10 @@ const dbInitStack = new MovieRentalDb(app, 'MovieRentalDbInitStack', {
   // env: { account: '123456789012', region: 'us-east-1' },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+});
+const lambdaApiStack = new MovieRentalLambdaApi(app, 'LambdaApi', {
+  env: { 
+    account: process.env.CDK_DEFAULT_ACCOUNT, 
+    region: process.env.CDK_DEFAULT_REGION
+  },
 });

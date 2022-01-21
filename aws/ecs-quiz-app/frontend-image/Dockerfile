@@ -30,7 +30,7 @@ RUN cp /tmp/assorted_projects/aws/quiz-app-ec2/src/http-server/* /app
 # Install http-server
 RUN npm install
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD npm start
 

@@ -4,25 +4,6 @@ const { Client } = require('pg');
 
 export const handleApiRequest = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
-  // Command for RDS Aurora serverless
-  /*
-  const sqlParams = {
-    secretArn: process.env.dbSecretArn,
-    resourceArn: process.env.dbArn,
-    sql: 'select * from actor;',
-    database: 'postgres',
-    includeResultMetadata: true
-  } as AWS.RDSDataService.ExecuteStatementRequest;
-
-  const rdsData = new AWS.RDSDataService();
-  const result = await rdsData.executeStatement(sqlParams, (err: any, data: any) => {
-    if (err){
-      console.log(err);
-    } else {
-      console.log(data);
-    }
-  }).promise();
-  */
  const client = new Client({
                    user: process.env.DB_USER,
                    host: process.env.DB_HOST,

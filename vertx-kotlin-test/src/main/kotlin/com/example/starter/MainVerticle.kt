@@ -44,22 +44,12 @@ class MainVerticle : AbstractVerticle() {
     router.route().handler(BodyHandler.create())
     // Mount the handler for all incoming requests at every path and HTTP method
     router.route().handler { context ->
-      // Get the address of the request
       val address = context.request().connection().remoteAddress().toString()
-      // Get the query parameter "name"
       val jsonData = context.bodyAsJson ?: JsonObject()
       val jsonIsValid = validateJson(schema, jsonData)
 
-      val provider = JWTAuth.create(
-        vertx, JWTAuthOptions()
-          .addPubSecKey(
-            PubSecKeyOptions()
-              .setAlgorithm("HS256")
-              .setBuffer("my precious secret")
-          )
-      )
-
-      val token = provider.generateToken(JsonObject().put("foo", "bar"))
+      val jwtProvider = Jwt.createProvider(vertx)
+      val token = jwtProvider.generateToken(JsonObject().put("foo", "bar"))
 
       // Write a json response
       context.json(

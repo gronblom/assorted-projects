@@ -2,6 +2,9 @@ package com.example.starter
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
+import io.vertx.ext.auth.PubSecKeyOptions
+import io.vertx.ext.auth.jwt.JWTAuth
+import io.vertx.ext.auth.jwt.JWTAuthOptions
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.json.schema.*
@@ -47,13 +50,25 @@ class MainVerticle : AbstractVerticle() {
       val jsonData = context.bodyAsJson ?: JsonObject()
       val jsonIsValid = validateJson(schema, jsonData)
 
+      val provider = JWTAuth.create(
+        vertx, JWTAuthOptions()
+          .addPubSecKey(
+            PubSecKeyOptions()
+              .setAlgorithm("HS256")
+              .setBuffer("my precious secret")
+          )
+      )
+
+      val token = provider.generateToken(JsonObject().put("foo", "bar"))
+
       // Write a json response
       context.json(
         json {
           obj(
             "from" to address,
             "message" to jsonData,
-            "jsonIsValid" to jsonIsValid
+            "jsonIsValid" to jsonIsValid,
+            "jwt" to token
           )
         }
       )

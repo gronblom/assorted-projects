@@ -1,23 +1,17 @@
 package com.example.starter
 
-import com.fasterxml.jackson.databind.util.ClassUtil
 import io.vertx.core.Vertx
-import io.vertx.core.buffer.Buffer
 import io.vertx.core.http.HttpClientRequest
 import io.vertx.core.http.HttpClientResponse
 import io.vertx.core.http.HttpMethod
-import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
-import io.vertx.core.parsetools.JsonParser
 import io.vertx.junit5.VertxExtension
 import io.vertx.junit5.VertxTestContext
-import io.vertx.kotlin.coroutines.await
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
-import java.util.function.Function
 
 
 @ExtendWith(VertxExtension::class)

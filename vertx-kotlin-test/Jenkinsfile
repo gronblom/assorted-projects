@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'vertx-kotlin-test/mvnw package'
+                dir('vertx-kotlin-test') {
+                    sh 'mvn package'
+                }
             }
         }
     }

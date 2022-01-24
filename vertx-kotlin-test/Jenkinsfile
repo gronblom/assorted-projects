@@ -8,5 +8,12 @@ pipeline {
                 }
             }
         }
+        stage('test') {
+            steps {
+                 dir('vertx-kotlin-test') {
+                     sh './mvnw clean test'
+                  }
+            }
+        }
     }
 }

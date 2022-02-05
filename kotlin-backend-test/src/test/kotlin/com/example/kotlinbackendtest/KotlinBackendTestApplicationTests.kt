@@ -1,0 +1,13 @@
+package com.example.kotlinbackendtest
+
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+
+@SpringBootTest
+class KotlinBackendTestApplicationTests {
+
+	@Test
+	fun contextLoads() {
+	}
+
+}

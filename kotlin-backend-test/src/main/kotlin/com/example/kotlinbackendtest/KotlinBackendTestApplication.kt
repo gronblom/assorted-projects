@@ -1,5 +1,7 @@
 package com.example.kotlinbackendtest
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.annotation.Id
@@ -8,7 +10,8 @@ import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.*
-
+import java.util.stream.Collectors
+import javax.servlet.http.HttpServletRequest
 
 @SpringBootApplication
 class KotlinBackendTestApplication
@@ -64,12 +67,28 @@ data class Film(@Id val film_id: Integer?, val title: String, val description: S
 @RestController
 @RequestMapping("/films")
 class FilmResource(val service: FilmService) {
+	companion object {
+		lateinit var mapper: ObjectMapper
+	}
+
+	init {
+		mapper = jacksonObjectMapper()
+	}
+
 	@GetMapping(produces = ["application/json"])
 	fun index(): List<Film> = service.findFilms()
 
 	@GetMapping(value = ["/{id}"], produces = ["application/json"])
-	fun getCustomer(@PathVariable("id") id: Long): Film? {
+	fun findFilms(@PathVariable("id") id: Long): Film? {
 		return service.findFilm(id)
+	}
+
+	@PostMapping(value = ["/search"], consumes = ["application/json"], produces = ["application/json"])
+	fun searchFilms(request: HttpServletRequest): List<Film?>? {
+		val payload = request.reader.lines().collect(Collectors.joining(System.lineSeparator()));
+		val jsonPayload = mapper.readTree(payload)
+		val searchTerms = jsonPayload.get("searchTerms").asText()
+		return service.searchFilms(searchTerms)
 	}
 
 	@PostMapping
@@ -87,6 +106,9 @@ interface FilmRepository : CrudRepository<Film, String> {
 	@Query("select * from film where film_id = :id")
 	fun findFilm(id: Long): Film
 
+	@Query("SELECT * FROM film WHERE fulltext @@ to_tsquery(:searchText)")
+	fun searchFilms(searchText: String): List<Film?>?
+
 }
 
 @Service
@@ -95,6 +117,8 @@ class FilmService(val db: FilmRepository) {
 	fun findFilms(): List<Film> = db.findFilms()
 
 	fun findFilm(id: Long): Film = db.findFilm(id)
+
+	fun searchFilms(searchText: String): List<Film?>? = db.searchFilms(searchText)
 
 	fun post(film: Film){
 		db.save(film)

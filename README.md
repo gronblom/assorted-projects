@@ -65,6 +65,10 @@ This is an AWS amplify "hello world" app with user authentication, based on a tu
 - [Reaktor 2020 coding challenge part 3 in haskell.](https://github.com/gronblom/assorted-projects/tree/main/reactor-hunt-2020)
 
   [part-3-app.hs](https://github.com/gronblom/assorted-projects/blob/main/reactor-hunt-2020/part_3_app.hs)
+  
+- [Kotlin + spring boot + postgresql test app](https://github.com/gronblom/assorted-projects/tree/main/kotlin-backend-test)
+
+  [KotlinBackendTestApplication.kt](https://github.com/gronblom/assorted-projects/blob/main/kotlin-backend-test/src/main/kotlin/com/example/kotlinbackendtest/KotlinBackendTestApplication.kt)
 
 - [vertx-kotlin-test](https://github.com/gronblom/assorted-projects/tree/main/vertx-kotlin-test) VertX kotlin test app with json schema validation and jwt creation.
 
